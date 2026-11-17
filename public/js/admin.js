@@ -269,8 +269,9 @@ function setupEventListeners() {
     statusFilter.addEventListener('change', fetchUsers);
   }
 
-  // Add Member Modal Triggers (Desktop + Mobile FAB)
+  // Add Member Modal Triggers (Header button + Toolbar button + Mobile FAB)
   const btnOpenAdd = document.getElementById('btn-open-add-user');
+  const btnToolbarAdd = document.getElementById('btn-toolbar-add-user');
   const btnFabAdd = document.getElementById('btn-fab-add-user');
 
   function openAddModal() {
@@ -279,6 +280,7 @@ function setupEventListeners() {
   }
 
   if (btnOpenAdd) btnOpenAdd.addEventListener('click', openAddModal);
+  if (btnToolbarAdd) btnToolbarAdd.addEventListener('click', openAddModal);
   if (btnFabAdd) btnFabAdd.addEventListener('click', openAddModal);
 
   // Dynamic Monthly Fee preview and auto-initial sync

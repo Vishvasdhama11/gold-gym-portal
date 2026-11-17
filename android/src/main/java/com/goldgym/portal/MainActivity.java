@@ -1,4 +1,4 @@
-package com.ironpulse.gym;
+package com.goldgym.portal;
 
 import android.Manifest;
 import android.app.Activity;
@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private static final String PREFS_NAME = "IronPulsePrefs";
+    private static final String PREFS_NAME = "GoldGymPrefs";
     private static final String KEY_SERVER_URL = "server_url";
     private static final String DEFAULT_URL = "https://innovative-fwd-hydraulic-away.trycloudflare.com";
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
         settings.setLoadWithOverviewMode(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
 
-        // Dark background matching IronPulse theme
+        // Dark background matching Gold Gym theme
         webView.setBackgroundColor(0xFF0B0F17);
 
         webView.setWebChromeClient(new WebChromeClient() {
@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 if (request.isForMainFrame()) {
-                    showErrorScreen("Unable to connect to Gym Server.\n\nServer: " + currentServerUrl);
+                    showErrorScreen("Unable to connect to Gold Gym Server.\n\nServer: " + currentServerUrl);
                 }
             }
 
@@ -191,8 +191,8 @@ public class MainActivity extends Activity {
 
     private void showServerUrlDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Gym Server Configuration");
-        builder.setMessage("Enter the URL where your IronPulse Gym database/server is running (e.g. Render/Railway URL or local Wi-Fi IP):");
+        builder.setTitle("Gold Gym Server Configuration");
+        builder.setMessage("Enter the URL where your Gold Gym server is running (e.g. Render/Cloudflare URL):");
 
         final EditText input = new EditText(this);
         input.setText(currentServerUrl);

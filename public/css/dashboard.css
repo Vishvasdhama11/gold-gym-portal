@@ -31,6 +31,22 @@
   text-align: right;
 }
 
+@media (max-width: 640px) {
+  .user-meta {
+    display: none;
+  }
+}
+
+.nav-logout-text {
+  display: inline;
+}
+
+@media (max-width: 480px) {
+  .nav-logout-text {
+    display: none;
+  }
+}
+
 .user-name-label {
   font-size: 0.925rem;
   font-weight: 700;

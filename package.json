@@ -1,7 +1,7 @@
 {
-  "name": "ironpulse-gym-portal",
+  "name": "gold-gym-portal",
   "version": "1.0.0",
-  "description": "IronPulse Gym - Premium Admin & Member Fee Management Portal",
+  "description": "Gold Gym - Premium Admin & Member Fee Management Portal",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -15,6 +15,6 @@
     "fee-management",
     "admin-portal"
   ],
-  "author": "IronPulse Gym",
+  "author": "Gold Gym",
   "license": "ISC"
 }

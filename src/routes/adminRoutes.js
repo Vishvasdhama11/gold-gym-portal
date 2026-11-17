@@ -192,6 +192,27 @@ function handleRecordPayment(req, res, userId, body) {
   }
 }
 
+const fs = require('node:fs');
+const path = require('node:path');
+
+function handleDownloadDb(req, res) {
+  try {
+    const dbPath = path.join(__dirname, '../../data/portal.db');
+    if (!fs.existsSync(dbPath)) {
+      return sendJson(res, 404, { success: false, message: 'Database file not found' });
+    }
+    const stat = fs.statSync(dbPath);
+    res.writeHead(200, {
+      'Content-Type': 'application/x-sqlite3',
+      'Content-Length': stat.size,
+      'Content-Disposition': 'attachment; filename="goldgym_backup.db"'
+    });
+    fs.createReadStream(dbPath).pipe(res);
+  } catch (err) {
+    sendJson(res, 500, { success: false, message: err.message });
+  }
+}
+
 module.exports = {
   handleGetStats,
   handleGetUsers,
@@ -202,5 +223,6 @@ module.exports = {
   handleGetFee,
   handleUpdateTotalFee,
   handleAdvanceCycle,
-  handleRecordPayment
+  handleRecordPayment,
+  handleDownloadDb
 };

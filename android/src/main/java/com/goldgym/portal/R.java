@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.ironpulse.gym;
+package com.goldgym.portal;
 
 public final class R {
   public static final class color {

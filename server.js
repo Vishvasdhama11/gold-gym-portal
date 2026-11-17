@@ -189,6 +189,10 @@ const server = http.createServer(async (req, res) => {
         return adminRoutes.handleCreateUser(req, res, body);
       }
 
+      if (pathname === '/api/admin/backup-db' && method === 'GET') {
+        return adminRoutes.handleDownloadDb(req, res);
+      }
+
       // Single User Operations: /api/admin/users/:id
       const userMatch = pathname.match(/^\/api\/admin\/users\/(\d+)$/);
       if (userMatch) {
@@ -255,7 +259,7 @@ const server = http.createServer(async (req, res) => {
 function startServer(port) {
   server.listen(port, () => {
     console.log(`\n=============================================================`);
-    console.log(`  🏋️ IronPulse Gym - Management & Member Fee Portal 🏋️`);
+    console.log(`  🏋️ Gold Gym - Management & Member Fee Portal 🏋️`);
     console.log(`  🚀 Server running at: http://localhost:${port}`);
     console.log(`-------------------------------------------------------------`);
     console.log(`  Single Admin Account:`);

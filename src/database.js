@@ -1,5 +1,5 @@
 /**
- * Database Module - IronPulse Gym Management Portal
+ * Database Module - Gold Gym Management Portal
  * Uses Node.js native SQLite (node:sqlite DatabaseSync)
  * Supports automated 30-day monthly fee recurring addition
  */
@@ -126,7 +126,7 @@ function syncAdminAccount() {
       adminMobile,
       adminPasswordHash,
       'Management',
-      'IronPulse Gym Main Branch',
+      'Gold Gym Main Branch',
       '/uploads/default-admin.svg'
     );
   }
