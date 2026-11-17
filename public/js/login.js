@@ -12,6 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorText = document.getElementById('login-error-text');
   const submitBtn = document.getElementById('login-submit-btn');
 
+  // Immediately hide any error banner on load
+  hideError();
+
+  // Auto-hide error banner as soon as user types in either input
+  if (identifierInput) {
+    identifierInput.addEventListener('input', hideError);
+  }
+  if (passwordInput) {
+    passwordInput.addEventListener('input', hideError);
+  }
+
   // Check if already authenticated
   checkExistingAuth();
 
