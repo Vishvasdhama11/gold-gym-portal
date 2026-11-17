@@ -1,0 +1,20 @@
+{
+  "name": "ironpulse-gym-portal",
+  "version": "1.0.0",
+  "description": "IronPulse Gym - Premium Admin & Member Fee Management Portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-suite.js"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "keywords": [
+    "gym-management",
+    "fee-management",
+    "admin-portal"
+  ],
+  "author": "IronPulse Gym",
+  "license": "ISC"
+}

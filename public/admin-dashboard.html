@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>IronPulse Gym - Admin Portal</title>
+  <link rel="stylesheet" href="/css/style.css?v=gym5">
+  <link rel="stylesheet" href="/css/dashboard.css?v=gym5">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="dashboard-nav">
+    <div class="container dashboard-nav-inner">
+      <a href="/admin-dashboard.html" class="brand-logo">
+        <div class="brand-icon">
+          <!-- Dumbbell SVG -->
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 4h1v16H5V4zm13 0h1v16h-1V4zM3 7h2v10H3V7zm16 0h2v10h-2V7zm-8 4h2v2h-2v-2zm-3 0h2v2H8v-2zm6 0h2v2h-2v-2zM6 9h12v6H6V9z"/>
+          </svg>
+        </div>
+        <span>IronPulse Gym</span>
+        <span class="badge badge-role-admin">Admin</span>
+      </a>
+
+      <div class="nav-user-profile">
+        <div class="user-meta" style="display: none; @media(min-width: 640px){ display: flex; }">
+          <span class="user-name-label" id="nav-admin-name">Gym Admin</span>
+          <span style="font-size: 0.775rem; color: var(--text-muted);">7302424139</span>
+        </div>
+        <img id="nav-admin-avatar" src="/uploads/default-admin.svg" alt="Admin Avatar" class="user-avatar-pill">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="logout()" title="Logout" style="padding: 8px 12px;">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          <span style="display: none; @media(min-width: 480px){ display: inline; }">Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="dashboard-content">
+    <div class="container">
+      
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Gym Management</h1>
+          <p class="page-subtitle">Manage registered gym members, admission profiles, and membership fees.</p>
+        </div>
+        <!-- Desktop Add Member Button -->
+        <div style="display: none; @media(min-width: 769px){ display: block; }">
+          <button type="button" class="btn btn-primary" id="btn-open-add-user">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>Add New Member</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Stat Cards (2x2 on Mobile, 4x1 on Desktop) -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Total Members</div>
+            <div class="stat-value" id="stat-total-users">0</div>
+          </div>
+          <div class="stat-icon primary">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Total Allocated Fees</div>
+            <div class="stat-value" id="stat-total-allocated">₹0</div>
+          </div>
+          <div class="stat-icon warning">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Collected Fees</div>
+            <div class="stat-value" style="color: #34D399;" id="stat-total-collected">₹0</div>
+          </div>
+          <div class="stat-icon success">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Remaining Dues</div>
+            <div class="stat-value" style="color: #F87171;" id="stat-total-pending">₹0</div>
+          </div>
+          <div class="stat-icon danger">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- Users Management Container -->
+      <section class="table-card">
+        <div class="table-toolbar">
+          <div class="search-filter-group">
+            <div class="search-box">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <input type="text" id="user-search-input" class="form-input" placeholder="Search member by name or mobile...">
+            </div>
+
+            <select id="status-filter-select" class="form-input" style="max-width: 170px;">
+              <option value="All">All Status</option>
+              <option value="Paid">Paid (Clear)</option>
+              <option value="Partial">Partial Dues</option>
+              <option value="Unpaid">Unpaid</option>
+            </select>
+          </div>
+
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;" id="user-count-display">
+            0 members registered
+          </div>
+        </div>
+
+        <!-- 1. Desktop Table View (>768px) -->
+        <div class="desktop-table-view">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Member Info</th>
+                  <th>Father / Guardian</th>
+                  <th>Address</th>
+                  <th>Total Fee</th>
+                  <th>Remaining</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <tr>
+                  <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Loading gym members...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. Mobile Member Cards View (<=768px) -->
+        <div class="mobile-cards-view" id="mobile-cards-container">
+          <!-- Dynamically populated on phone screens -->
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Mobile Floating Action Button (FAB) + Add Member -->
+  <button type="button" class="mobile-fab" id="btn-fab-add-user" aria-label="Add Member">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+    </svg>
+    <span>Add Member</span>
+  </button>
+
+  <!-- ================= MODALS (With Phone Bottom Sheet UX) ================= -->
+
+  <!-- Modal 1: Add New Member -->
+  <div class="modal-overlay" id="modal-add-user">
+    <form id="form-add-user" class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">🏋️ Add New Gym Member</h3>
+        <button type="button" class="modal-close-btn" data-close="modal-add-user">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Photo Upload & Live Camera Options -->
+        <div class="photo-upload-box">
+          <img id="add-photo-preview" src="/uploads/default-avatar.svg" class="photo-preview" alt="Preview">
+          <div class="photo-upload-actions">
+            <span class="form-label" style="margin-bottom: 2px;">Member Photo</span>
+            <span style="font-size: 0.775rem; color: var(--text-muted);">Optional (PNG, JPG or Live Camera)</span>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-choose-add-photo">
+                📁 Upload File
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-live-cam-add">
+                📸 Live Photo
+              </button>
+            </div>
+            <input type="file" id="add-photo-file" accept="image/*" style="display: none;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="add-name">Member Full Name *</label>
+          <input type="text" id="add-name" class="form-input" placeholder="e.g. Sahil Khan" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label" for="add-mobile">Mobile Number (Login ID) *</label>
+            <input type="tel" id="add-mobile" class="form-input" placeholder="10-digit phone" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="add-password">Password *</label>
+            <input type="text" id="add-password" class="form-input" placeholder="Set password" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="add-father">Father's / Guardian's Name</label>
+          <input type="text" id="add-father" class="form-input" placeholder="Optional (Father or Guardian)">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="add-address">Address / City</label>
+          <textarea id="add-address" class="form-input" rows="2" placeholder="Optional (Residential address)"></textarea>
+        </div>
+
+        <!-- 30-Day Recurring Monthly Fee Details -->
+        <div style="background-color: var(--gym-dark); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-top: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: 800; font-size: 0.85rem; color: var(--primary); text-transform: uppercase;">
+              💰 Membership Fee & 30-Day Cycle
+            </span>
+            <span class="badge badge-paid" style="font-size: 0.675rem;">Auto-Renew 30 Days</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="add-monthly-fee">Monthly Fee (₹/mo) *</label>
+              <input type="number" id="add-monthly-fee" class="form-input" placeholder="e.g. 700 or 500" min="0" value="700" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="add-initial-pay">Initial Paid Today (₹)</label>
+              <input type="number" id="add-initial-pay" class="form-input" placeholder="0" min="0" value="700">
+            </div>
+          </div>
+
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; line-height: 1.4; background: rgba(245, 158, 11, 0.08); border: 1px dashed rgba(245, 158, 11, 0.25); padding: 8px 10px; border-radius: var(--radius-sm);">
+            ⚡ <strong>30-Day Recurring Billing:</strong> Admission ke thik 30 din baad Total Fees me ye amount (₹<span id="add-preview-monthly">700</span>) automatically add ho jayegi.
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="modal-add-user">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="btn-save-new-user">Create Member Profile</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal 2: Edit Member -->
+  <div class="modal-overlay" id="modal-edit-user">
+    <form id="form-edit-user" class="modal-dialog">
+      <input type="hidden" id="edit-user-id">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Edit Member Details</h3>
+        <button type="button" class="modal-close-btn" data-close="modal-edit-user">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Photo Upload & Live Camera Options -->
+        <div class="photo-upload-box">
+          <img id="edit-photo-preview" src="/uploads/default-avatar.svg" class="photo-preview" alt="Preview">
+          <div class="photo-upload-actions">
+            <span class="form-label" style="margin-bottom: 2px;">Change Photo</span>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-choose-edit-photo">
+                📁 Upload File
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-live-cam-edit">
+                📸 Live Photo
+              </button>
+            </div>
+            <input type="file" id="edit-photo-file" accept="image/*" style="display: none;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edit-name">Member Name *</label>
+          <input type="text" id="edit-name" class="form-input" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label" for="edit-mobile">Mobile Number *</label>
+            <input type="tel" id="edit-mobile" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="edit-password">New Password</label>
+            <input type="text" id="edit-password" class="form-input" placeholder="Leave blank to keep current">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edit-father">Father's / Guardian's Name</label>
+          <input type="text" id="edit-father" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edit-address">Address</label>
+          <textarea id="edit-address" class="form-input" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edit-monthly-fee">Monthly Membership Fee (₹/month)</label>
+          <input type="number" id="edit-monthly-fee" class="form-input" placeholder="e.g. 700" min="0">
+          <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">
+            Har 30 din baad auto-add hone wali monthly subscription fees.
+          </span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="modal-edit-user">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="btn-update-user">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal 3: View Individual Member Profile -->
+  <div class="modal-overlay" id="modal-view-profile">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Member Profile Overview</h3>
+        <button type="button" class="modal-close-btn" data-close="modal-view-profile">&times;</button>
+      </div>
+      <div class="modal-body" id="view-profile-content">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="modal-view-profile">Close</button>
+        <button type="button" class="btn btn-primary" id="btn-profile-manage-fees">Manage Fees</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Fee Management -->
+  <div class="modal-overlay" id="modal-fee-management">
+    <div class="modal-dialog" style="max-width: 660px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">💳 Fee & Payment Management</h3>
+          <span style="font-size: 0.825rem; color: var(--text-muted);" id="fee-modal-username">Member Name</span>
+        </div>
+        <button type="button" class="modal-close-btn" data-close="modal-fee-management">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="fee-manage-user-id">
+
+        <!-- Fee Summary Overview Pill -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px;">
+          <div style="background-color: var(--gym-dark); border: 1px solid var(--border); padding: 10px; border-radius: var(--radius-sm); text-align: center;">
+            <div style="font-size: 0.675rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Total</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #FFFFFF;" id="fee-modal-total">-</div>
+          </div>
+          <div style="background-color: var(--gym-dark); border: 1px solid var(--border); padding: 10px; border-radius: var(--radius-sm); text-align: center;">
+            <div style="font-size: 0.675rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Paid</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #34D399;" id="fee-modal-paid">-</div>
+          </div>
+          <div style="background-color: var(--gym-dark); border: 1px solid var(--border); padding: 10px; border-radius: var(--radius-sm); text-align: center;">
+            <div style="font-size: 0.675rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Remaining</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #F87171;" id="fee-modal-remaining">-</div>
+          </div>
+          <div style="background-color: var(--gym-dark); border: 1px solid var(--border); padding: 10px; border-radius: var(--radius-sm); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div style="font-size: 0.675rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px;">Status</div>
+            <div id="fee-modal-status-badge">-</div>
+          </div>
+        </div>
+
+        <!-- 30-Day Auto Billing Plan & Next Due Date -->
+        <div style="background-color: var(--gym-dark); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 800; color: #FFFFFF;">
+              Monthly Plan: <span style="color: var(--primary);" id="fee-modal-plan">₹700 / month</span>
+            </div>
+            <div style="font-size: 0.775rem; color: var(--text-muted); margin-top: 2px;">
+              Next 30-Day Renewal Due: <strong style="color: #34D399;" id="fee-modal-next-date">N/A</strong>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-advance-cycle" title="Add 30-day renewal cycle">
+            ⚡ Advance 30-Day Cycle (+₹<span id="fee-advance-amt">700</span>)
+          </button>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="modal-tabs">
+          <button type="button" class="tab-btn active" data-tab="tab-record-payment">Record Payment</button>
+          <button type="button" class="tab-btn" data-tab="tab-update-total">Set Total Fee</button>
+          <button type="button" class="tab-btn" data-tab="tab-payment-history">Payment History (<span id="fee-history-count">0</span>)</button>
+        </div>
+
+        <!-- Tab 1: Record Payment Form -->
+        <div class="tab-pane active" id="tab-record-payment">
+          <form id="form-record-payment">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label class="form-label" for="pay-amount">Payment Amount (₹) *</label>
+                <input type="number" id="pay-amount" class="form-input" placeholder="Amount" min="1" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pay-date">Payment Date *</label>
+                <input type="date" id="pay-date" class="form-input" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label class="form-label" for="pay-method">Payment Mode</label>
+                <select id="pay-method" class="form-input">
+                  <option value="Cash">Cash</option>
+                  <option value="UPI">UPI / GPay / PhonePe / Paytm</option>
+                  <option value="Bank Transfer">Bank Transfer (NEFT/IMPS)</option>
+                  <option value="Card">Debit / Credit Card</option>
+                  <option value="Cheque">Cheque</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pay-notes">Notes / Reference No.</label>
+                <input type="text" id="pay-notes" class="form-input" placeholder="e.g. UPI Ref or Receipt #">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 6px;">
+              <span>Record & Confirm Payment</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab 2: Update Total Fee -->
+        <div class="tab-pane" id="tab-update-total">
+          <form id="form-update-total-fee">
+            <div class="form-group">
+              <label class="form-label" for="update-total-amount">Total Membership Fee Allocation (₹) *</label>
+              <input type="number" id="update-total-amount" class="form-input" min="0" required>
+              <span style="font-size: 0.775rem; color: var(--text-muted); display: block; margin-top: 4px;">
+                Remaining dues will automatically calculate as: Total Fee − Paid Fees.
+              </span>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 6px;">
+              <span>Update Fee Amount</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab 3: Complete Payment History Ledger -->
+        <div class="tab-pane" id="tab-payment-history">
+          <div style="max-height: 280px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            <table class="data-table" style="font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="payment-history-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="modal-fee-management">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Delete Confirmation -->
+  <div class="modal-overlay" id="modal-delete-confirm">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: #EF4444;">Confirm Deletion</h3>
+        <button type="button" class="modal-close-btn" data-close="modal-delete-confirm">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.95rem; color: #FFFFFF; margin-bottom: 12px;">
+          Are you sure you want to permanently delete member <strong id="delete-user-name">this user</strong>?
+        </p>
+        <div style="background-color: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-sm); padding: 12px; font-size: 0.825rem; color: #F87171;">
+          ⚠️ This action cannot be undone. All admission and fee payment records for this member will be permanently deleted.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="modal-delete-confirm">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete">Delete Member</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Live Camera Capture -->
+  <div class="modal-overlay" id="modal-camera-capture" style="z-index: 1200;">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">📸 Take Live Member Photo</h3>
+        <button type="button" class="modal-close-btn" data-close="modal-camera-capture">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 18px;">
+        <div class="camera-viewfinder-container">
+          <video id="camera-stream-video" autoplay playsinline muted></video>
+          <div class="camera-target-ring"></div>
+        </div>
+        
+        <canvas id="camera-snapshot-canvas" style="display: none;"></canvas>
+        <input type="file" id="fallback-camera-file" accept="image/*" capture="user" style="display: none;">
+
+        <p style="font-size: 0.825rem; color: var(--text-muted); margin-top: 12px;">
+          Position member's face inside circle and click <strong>Snap Photo</strong>.
+        </p>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-camera-flip">
+          🔄 Flip Camera
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-secondary" data-close="modal-camera-capture">Cancel</button>
+          <button type="button" class="btn btn-primary" id="btn-camera-snap">
+            📸 Snap Photo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/api.js?v=gym5"></script>
+  <script src="/js/admin.js?v=gym5"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="adminGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B4B" />
+      <stop offset="100%" stop-color="#4338CA" />
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="60" fill="url(#adminGrad)" />
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#6366F1" stroke-width="2" stroke-dasharray="4 4" />
+  <!-- Shield Icon -->
+  <path d="M60 28 L78 36 V58 C78 72 69 84 60 90 C51 84 42 72 42 58 V36 Z" fill="url(#shieldGrad)" />
+  <!-- Star / Check in Shield -->
+  <path d="M60 44 L63.5 51.5 L71.5 52.5 L65.5 58 L67 66 L60 62 L53 66 L54.5 58 L48.5 52.5 L56.5 51.5 Z" fill="#1E1B4B" />
+</svg>

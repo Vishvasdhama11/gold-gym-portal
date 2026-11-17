@@ -1,0 +1,18 @@
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node & Dependencies
+node_modules/
+npm-debug.log*
+
+# Database temporary journals
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+# Logs
+*.log
+logs/
