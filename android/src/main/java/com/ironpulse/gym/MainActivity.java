@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 
     private static final String PREFS_NAME = "IronPulsePrefs";
     private static final String KEY_SERVER_URL = "server_url";
-    private static final String DEFAULT_URL = "http://172.20.10.3:3000";
+    private static final String DEFAULT_URL = "https://innovative-fwd-hydraulic-away.trycloudflare.com";
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
     private static final int PERMISSION_REQUEST_CODE = 1002;
 
