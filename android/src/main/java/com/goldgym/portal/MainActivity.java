@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 
     private static final String PREFS_NAME = "GoldGymPrefs";
     private static final String KEY_SERVER_URL = "server_url";
-    private static final String DEFAULT_URL = "https://innovative-fwd-hydraulic-away.trycloudflare.com";
+    private static final String DEFAULT_URL = "https://gold-gym-portal.onrender.com";
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
     private static final int PERMISSION_REQUEST_CODE = 1002;
 
