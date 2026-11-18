@@ -207,8 +207,11 @@ setInterval(checkAndApplyMonthlyBilling, 60 * 60 * 1000);
 function getUserById(id) {
   const numId = parseInt(id, 10);
   const user = db.prepare(`
-    SELECT id, role, identifier, name, mobile, father_name, address, photo_url, created_at, updated_at
-    FROM users WHERE id = ?
+    SELECT u.id, u.role, u.identifier, u.name, u.mobile, u.address, u.photo_url, u.created_at, u.updated_at,
+           f.monthly_fee, f.joining_date, f.next_billing_date, f.total_fees, f.paid_fees, f.remaining_fees, f.payment_status
+    FROM users u
+    LEFT JOIN fees f ON u.id = f.user_id
+    WHERE u.id = ?
   `).get(numId);
   return user || null;
 }
@@ -321,7 +324,7 @@ function createUser({ name, mobile, password, father_name = '', address = '', ph
   return getUserById(userId);
 }
 
-function updateUser(id, { name, mobile, password, father_name, address, photo_url, monthly_fee }) {
+function updateUser(id, { name, mobile, password, address, photo_url, monthly_fee, joining_date }) {
   const numId = parseInt(id, 10);
   const current = getUserById(numId);
   if (!current) {
@@ -338,7 +341,6 @@ function updateUser(id, { name, mobile, password, father_name, address, photo_ur
 
   const updatedName = name !== undefined ? name.trim() : current.name;
   const updatedMobile = mobile !== undefined ? mobile.trim() : current.mobile;
-  const updatedFather = father_name !== undefined ? father_name.trim() : current.father_name;
   const updatedAddress = address !== undefined ? address.trim() : current.address;
   const updatedPhoto = photo_url !== undefined && photo_url.trim() ? photo_url : current.photo_url;
 
@@ -346,15 +348,15 @@ function updateUser(id, { name, mobile, password, father_name, address, photo_ur
     const hashedPassword = hashPassword(password.trim());
     db.prepare(`
       UPDATE users 
-      SET name = ?, mobile = ?, identifier = ?, password = ?, father_name = ?, address = ?, photo_url = ?, updated_at = CURRENT_TIMESTAMP
+      SET name = ?, mobile = ?, identifier = ?, password = ?, address = ?, photo_url = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).run(updatedName, updatedMobile, updatedMobile, hashedPassword, updatedFather, updatedAddress, updatedPhoto, numId);
+    `).run(updatedName, updatedMobile, updatedMobile, hashedPassword, updatedAddress, updatedPhoto, numId);
   } else {
     db.prepare(`
       UPDATE users 
-      SET name = ?, mobile = ?, identifier = ?, father_name = ?, address = ?, photo_url = ?, updated_at = CURRENT_TIMESTAMP
+      SET name = ?, mobile = ?, identifier = ?, address = ?, photo_url = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).run(updatedName, updatedMobile, updatedMobile, updatedFather, updatedAddress, updatedPhoto, numId);
+    `).run(updatedName, updatedMobile, updatedMobile, updatedAddress, updatedPhoto, numId);
   }
 
   // Update monthly fee if provided
@@ -362,6 +364,15 @@ function updateUser(id, { name, mobile, password, father_name, address, photo_ur
     db.prepare(`
       UPDATE fees SET monthly_fee = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?
     `).run(Number(monthly_fee), numId);
+  }
+
+  // Update joining date if provided
+  if (joining_date !== undefined && joining_date && joining_date.trim()) {
+    const cleanJoin = joining_date.trim();
+    const nextBill = new Date(new Date(cleanJoin).getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    db.prepare(`
+      UPDATE fees SET joining_date = ?, next_billing_date = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?
+    `).run(cleanJoin, nextBill, numId);
   }
 
   return getUserById(numId);

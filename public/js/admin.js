@@ -130,7 +130,9 @@ function renderDesktopTable(users) {
             </div>
           </div>
         </td>
-        <td>${escapeHtml(user.father_name || 'N/A')}</td>
+        <td>
+          <span style="color: #34D399; font-weight: 700;">📅 ${user.joining_date ? formatDate(user.joining_date) : 'N/A'}</span>
+        </td>
         <td style="max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(user.address || '')}">
           ${escapeHtml(user.address || 'N/A')}
         </td>
@@ -225,9 +227,9 @@ function renderMobileCards(users) {
             </span>
           </div>
           <div class="member-card-detail-item" style="grid-column: span 2;">
-            <span class="member-card-detail-label">Father / Address</span>
+            <span class="member-card-detail-label">Joined / Address</span>
             <span class="member-card-detail-val" style="font-weight: 500; font-size: 0.8rem; color: #CBD5E1;">
-              ${escapeHtml(user.father_name && user.father_name !== 'N/A' ? user.father_name + ' • ' : '')}${escapeHtml(user.address || 'N/A')}
+              <strong style="color: #34D399;">📅 ${user.joining_date ? formatDate(user.joining_date) : 'N/A'}</strong> • ${escapeHtml(user.address || 'N/A')}
             </span>
           </div>
         </div>
@@ -427,11 +429,14 @@ function setupEventListeners() {
         const monthlyFeeVal = Number(document.getElementById('add-monthly-fee').value) || 0;
         const initialPayVal = Number(document.getElementById('add-initial-pay').value) || 0;
 
+        const joiningDateInput = document.getElementById('add-joining-date');
+        const joinDateVal = (joiningDateInput && joiningDateInput.value) ? joiningDateInput.value : new Date().toISOString().slice(0, 10);
+
         const payload = {
           name: document.getElementById('add-name').value.trim(),
           mobile: document.getElementById('add-mobile').value.trim(),
           password: document.getElementById('add-password').value.trim(),
-          father_name: document.getElementById('add-father').value.trim() || 'N/A',
+          joining_date: joinDateVal,
           address: document.getElementById('add-address').value.trim() || 'N/A',
           photo_url: addPhotoBase64 || '',
           monthly_fee: monthlyFeeVal,
@@ -470,11 +475,12 @@ function setupEventListeners() {
       saveBtn.disabled = true;
 
       try {
+        const editJoinInput = document.getElementById('edit-joining-date');
         const payload = {
           name: document.getElementById('edit-name').value.trim(),
           mobile: document.getElementById('edit-mobile').value.trim(),
           password: document.getElementById('edit-password').value.trim(),
-          father_name: document.getElementById('edit-father').value.trim(),
+          joining_date: editJoinInput ? editJoinInput.value : '',
           address: document.getElementById('edit-address').value.trim(),
           monthly_fee: Number(document.getElementById('edit-monthly-fee').value) || 0
         };
@@ -653,6 +659,9 @@ function resetAddForm() {
   const preview = document.getElementById('add-photo-preview');
   if (preview) preview.src = '/uploads/default-avatar.svg';
 
+  const joinDateInput = document.getElementById('add-joining-date');
+  if (joinDateInput) joinDateInput.value = new Date().toISOString().slice(0, 10);
+
   const monthlyInput = document.getElementById('add-monthly-fee');
   if (monthlyInput) monthlyInput.value = '700';
 
@@ -794,8 +803,8 @@ async function openViewProfileModal(userId) {
               </div>
             </div>
             <div>
-              <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Father / Guardian</div>
-              <div style="font-size: 0.95rem; font-weight: 700; color: #FFFFFF;">${escapeHtml(user.father_name || 'N/A')}</div>
+              <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Membership Start Date</div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #34D399;">📅 ${user.joining_date ? formatDate(user.joining_date) : 'N/A'}</div>
             </div>
           </div>
           <div style="margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px;">
@@ -868,7 +877,8 @@ async function openEditUserModal(userId) {
   document.getElementById('edit-name').value = user.name || '';
   document.getElementById('edit-mobile').value = user.mobile || '';
   document.getElementById('edit-password').value = '';
-  document.getElementById('edit-father').value = user.father_name && user.father_name !== 'N/A' ? user.father_name : '';
+  const editJoinInput = document.getElementById('edit-joining-date');
+  if (editJoinInput) editJoinInput.value = user.joining_date || '';
   document.getElementById('edit-address').value = user.address && user.address !== 'N/A' ? user.address : '';
   document.getElementById('edit-monthly-fee').value = user.monthly_fee || 0;
 

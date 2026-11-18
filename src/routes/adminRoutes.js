@@ -103,7 +103,7 @@ function handleGetUserDetail(req, res, userId) {
 
 function handleUpdateUser(req, res, userId, body) {
   try {
-    const { name, mobile, password, father_name, address, photo_url, monthly_fee } = body || {};
+    const { name, mobile, password, address, photo_url, monthly_fee, joining_date } = body || {};
 
     let finalPhoto = photo_url;
     if (photo_url && photo_url.startsWith('data:image/')) {
@@ -114,10 +114,11 @@ function handleUpdateUser(req, res, userId, body) {
       name: name !== undefined ? name.trim() : undefined,
       mobile: mobile !== undefined ? mobile.trim() : undefined,
       password: password && password.trim() ? password.trim() : undefined,
-      father_name: father_name !== undefined ? father_name.trim() : undefined,
       address: address !== undefined ? address.trim() : undefined,
       photo_url: finalPhoto,
-      monthly_fee: monthly_fee !== undefined ? Number(monthly_fee) : undefined
+      monthly_fee: monthly_fee !== undefined ? Number(monthly_fee) : undefined,
+      joining_date: joining_date !== undefined ? joining_date.trim() : undefined
+    });
     });
 
     sendJson(res, 200, { success: true, message: 'Member updated successfully', user: updated });

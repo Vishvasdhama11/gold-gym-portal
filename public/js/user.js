@@ -40,14 +40,14 @@ async function fetchUserProfile() {
       const photoLarge = document.getElementById('profile-photo-large');
       const displayName = document.getElementById('profile-display-name');
       const mobileVal = document.getElementById('profile-mobile');
-      const fatherVal = document.getElementById('profile-father');
+      const joinVal = document.getElementById('profile-joining-date');
       const addressVal = document.getElementById('profile-address');
       const dateVal = document.getElementById('profile-registered-date');
 
       if (photoLarge && p.photo_url) photoLarge.src = p.photo_url;
       if (displayName) displayName.textContent = p.name;
       if (mobileVal) mobileVal.textContent = p.mobile;
-      if (fatherVal) fatherVal.textContent = p.father_name || 'N/A';
+      if (joinVal) joinVal.textContent = p.joining_date ? formatDate(p.joining_date) : (p.created_at ? formatDate(p.created_at) : 'N/A');
       if (addressVal) addressVal.textContent = p.address || 'N/A';
       if (dateVal) dateVal.textContent = formatDate(p.created_at);
     }

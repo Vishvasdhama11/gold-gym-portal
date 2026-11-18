@@ -152,6 +152,11 @@ const server = http.createServer(async (req, res) => {
 
   // ================= API ROUTES =================
   if (pathname.startsWith('/api/')) {
+    if (pathname === '/api/health') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ status: 'ok', time: new Date().toISOString() }));
+    }
+
     const body = ['POST', 'PUT', 'PATCH'].includes(method) ? await readBody(req) : {};
 
     // 1. Auth Endpoints
@@ -255,6 +260,27 @@ const server = http.createServer(async (req, res) => {
   serveStaticFile(req, res, pathname);
 });
 
+// Render Free Service Keepalive Ping
+// Render spins down instances after 15 minutes of inactivity.
+// Pinging every 9 minutes resets the timer and keeps the service active 24/7!
+const https = require('node:https');
+
+function startKeepAlivePing() {
+  const PING_INTERVAL = 9 * 60 * 1000; // 9 minutes
+  const pingUrl = process.env.RENDER_EXTERNAL_URL || 'https://gold-gym-portal.onrender.com';
+
+  setInterval(() => {
+    try {
+      const client = pingUrl.startsWith('https:') ? https : http;
+      client.get(pingUrl + '/api/health', (res) => {
+        // Ping success - keeps Render active 24/7
+      }).on('error', () => {
+        // Silently ignore ping errors
+      });
+    } catch (e) {}
+  }, PING_INTERVAL);
+}
+
 // Start listening with port fallback
 function startServer(port) {
   server.listen(port, () => {
@@ -265,6 +291,9 @@ function startServer(port) {
     console.log(`  Single Admin Account:`);
     console.log(`  👑 Admin Mobile: "7302424139"     Password: "jatt4321"`);
     console.log(`=============================================================\n`);
+
+    // Start 24/7 keep-alive ping for Render
+    startKeepAlivePing();
   });
 
   server.on('error', (err) => {
