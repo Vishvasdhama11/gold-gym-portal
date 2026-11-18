@@ -119,7 +119,6 @@ function handleUpdateUser(req, res, userId, body) {
       monthly_fee: monthly_fee !== undefined ? Number(monthly_fee) : undefined,
       joining_date: joining_date !== undefined ? joining_date.trim() : undefined
     });
-    });
 
     sendJson(res, 200, { success: true, message: 'Member updated successfully', user: updated });
   } catch (err) {
