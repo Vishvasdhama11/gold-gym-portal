@@ -108,9 +108,9 @@ async function logout() {
   } catch (e) {
     // Continue with client logout
   }
-  localStorage.removeItem('auradesk_token');
-  localStorage.removeItem('auradesk_role');
-  localStorage.removeItem('auradesk_user');
+  localStorage.clear();
+  sessionStorage.clear();
+  document.cookie = 'auth_token=; Path=/; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   window.location.href = '/login.html';
 }
 

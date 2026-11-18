@@ -91,7 +91,12 @@ function handleGetMe(req, res) {
 function handleLogout(req, res) {
   res.writeHead(200, {
     'Content-Type': 'application/json',
-    'Set-Cookie': 'auth_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax'
+    'Set-Cookie': [
+      'auth_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax',
+      'auth_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax; Secure',
+      'auth_token=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure',
+      'auth_token=; Path=/; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    ]
   });
   return res.end(JSON.stringify({ success: true, message: 'Logged out successfully' }));
 }

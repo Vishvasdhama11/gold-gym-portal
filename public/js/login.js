@@ -23,30 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     passwordInput.addEventListener('input', hideError);
   }
 
-  // Check if an existing session is active
-  checkExistingAuth();
-
-  async function checkExistingAuth() {
-    try {
-      const data = await apiRequest('/api/auth/me');
-      if (data && data.authenticated && data.user) {
-        const banner = document.getElementById('active-session-banner');
-        const nameEl = document.getElementById('active-session-name');
-        const dashBtn = document.getElementById('active-session-dashboard-btn');
-
-        if (banner && nameEl) {
-          nameEl.textContent = `${data.user.name} (${data.user.role === 'admin' ? 'Gym Admin' : 'Member'})`;
-          if (dashBtn) {
-            dashBtn.href = data.user.role === 'admin' ? '/admin-dashboard.html' : '/user-dashboard.html';
-          }
-          banner.style.display = 'block';
-        }
-      }
-    } catch (e) {
-      // Not logged in, stay on login page
-    }
-  }
-
   // Toggle Password Visibility
   if (togglePasswordBtn && passwordInput && eyeIcon) {
     togglePasswordBtn.addEventListener('click', () => {
