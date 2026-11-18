@@ -1,5 +1,5 @@
 /**
- * IronPulse Gym - Login Controller
+ * Gold Gym - Login Controller (Universal Admin & Member Login)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorText = document.getElementById('login-error-text');
   const submitBtn = document.getElementById('login-submit-btn');
 
-  // Immediately hide any error banner on load
+  // Immediately hide error banner on load
   hideError();
 
-  // Auto-hide error banner as soon as user types in either input
+  // Auto-hide error banner as soon as user types
   if (identifierInput) {
     identifierInput.addEventListener('input', hideError);
   }
@@ -23,17 +23,23 @@ document.addEventListener('DOMContentLoaded', () => {
     passwordInput.addEventListener('input', hideError);
   }
 
-  // Check if already authenticated
+  // Check if an existing session is active
   checkExistingAuth();
 
   async function checkExistingAuth() {
     try {
       const data = await apiRequest('/api/auth/me');
       if (data && data.authenticated && data.user) {
-        if (data.user.role === 'admin') {
-          window.location.href = '/admin-dashboard.html';
-        } else {
-          window.location.href = '/user-dashboard.html';
+        const banner = document.getElementById('active-session-banner');
+        const nameEl = document.getElementById('active-session-name');
+        const dashBtn = document.getElementById('active-session-dashboard-btn');
+
+        if (banner && nameEl) {
+          nameEl.textContent = `${data.user.name} (${data.user.role === 'admin' ? 'Gym Admin' : 'Member'})`;
+          if (dashBtn) {
+            dashBtn.href = data.user.role === 'admin' ? '/admin-dashboard.html' : '/user-dashboard.html';
+          }
+          banner.style.display = 'block';
         }
       }
     } catch (e) {
@@ -67,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideError();
 
       const identifier = identifierInput.value.trim();
-      const password = passwordInput.value;
+      const password = passwordInput.value.trim();
 
       if (!identifier || !password) {
         showError('Please enter your Mobile Number / User ID and Password.');
@@ -76,9 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setLoading(true);
 
+      // Clear any prior stored credentials before logging into new account
+      localStorage.removeItem('auradesk_token');
+      localStorage.removeItem('auradesk_role');
+      localStorage.removeItem('auradesk_user');
+
       try {
         const response = await apiRequest('/api/auth/login', {
           method: 'POST',
+          headers: { 'Authorization': '' },
           body: { identifier, password }
         });
 

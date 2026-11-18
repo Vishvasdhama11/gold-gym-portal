@@ -662,6 +662,9 @@ function resetAddForm() {
   const joinDateInput = document.getElementById('add-joining-date');
   if (joinDateInput) joinDateInput.value = new Date().toISOString().slice(0, 10);
 
+  const addPassInput = document.getElementById('add-password');
+  if (addPassInput) addPassInput.value = '123456';
+
   const monthlyInput = document.getElementById('add-monthly-fee');
   if (monthlyInput) monthlyInput.value = '700';
 
@@ -797,10 +800,13 @@ async function openViewProfileModal(userId) {
         <div style="background-color: var(--gym-dark); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 18px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
-              <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mobile Number (Login)</div>
+              <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mobile Number (Login ID)</div>
               <div style="font-size: 0.95rem; font-weight: 700; color: var(--primary);">
                 <a href="tel:${escapeHtml(user.mobile)}">📱 ${escapeHtml(user.mobile)}</a>
               </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal('modal-view-profile'); openEditUserModal(${user.id});" style="margin-top: 6px; padding: 3px 8px; font-size: 0.72rem;">
+                🔑 Change Password
+              </button>
             </div>
             <div>
               <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Membership Start Date</div>

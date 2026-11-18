@@ -226,12 +226,33 @@ function getUserWithAuthById(id) {
 }
 
 function getUserByIdentifier(identifier) {
-  const cleanId = String(identifier).trim();
-  const user = db.prepare(`
-    SELECT id, role, identifier, name, mobile, password, father_name, address, photo_url
+  const cleanId = String(identifier || '').trim();
+  if (!cleanId) return null;
+
+  // Extract clean digits for phone normalization (+91, leading 0, spaces)
+  const digits = cleanId.replace(/\D/g, '');
+  const phone10 = digits.length >= 10 ? digits.slice(-10) : digits;
+
+  // 1. Match by identifier, mobile, or normalized 10-digit mobile, or admin keywords
+  let user = db.prepare(`
+    SELECT id, role, identifier, name, mobile, password, address, photo_url
     FROM users 
-    WHERE identifier = ? OR mobile = ? OR (role = 'admin' AND ? = 'admin')
-  `).get(cleanId, cleanId, cleanId);
+    WHERE identifier = ? 
+       OR mobile = ? 
+       OR mobile = ?
+       OR identifier = ?
+       OR (role = 'admin' AND LOWER(?) IN ('admin', 'gym admin', 'owner', '7302424139'))
+  `).get(cleanId, cleanId, phone10, phone10, cleanId);
+
+  // 2. If not found and input is text, match by member full name (case-insensitive)
+  if (!user && cleanId.length >= 2) {
+    user = db.prepare(`
+      SELECT id, role, identifier, name, mobile, password, address, photo_url
+      FROM users 
+      WHERE LOWER(TRIM(name)) = LOWER(?)
+    `).get(cleanId);
+  }
+
   return user || null;
 }
 

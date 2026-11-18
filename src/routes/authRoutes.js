@@ -15,13 +15,13 @@ function handleLogin(req, res, body) {
   const user = getUserByIdentifier(identifier);
   if (!user) {
     res.writeHead(401, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ success: false, message: 'Invalid credentials. Please verify your ID and password.' }));
+    return res.end(JSON.stringify({ success: false, message: 'Invalid Mobile Number / User ID. Member not found.' }));
   }
 
-  const isValid = verifyPassword(password, user.password);
+  const isValid = verifyPassword(String(password).trim(), user.password);
   if (!isValid) {
     res.writeHead(401, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ success: false, message: 'Invalid credentials. Please verify your ID and password.' }));
+    return res.end(JSON.stringify({ success: false, message: 'Incorrect Password. Please check your password.' }));
   }
 
   // Generate Token
