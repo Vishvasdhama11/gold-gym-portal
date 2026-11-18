@@ -146,17 +146,46 @@ test('Recording Payment & Ledger History', () => {
   assert.strictEqual(payments[0].notes, 'Month 2 payment via GPay');
 });
 
-test('Member Profile Updates & Edit Details', () => {
+test('Member Profile Updates & Edit Details with Joining Date', () => {
   const updated = db.updateUser(testUserId, {
     name: 'Vikram Singh Jr.',
     address: 'Updated Colony',
-    monthly_fee: 800
+    monthly_fee: 800,
+    joining_date: '2026-08-15'
   });
   assert.strictEqual(updated.name, 'Vikram Singh Jr.');
   assert.strictEqual(updated.address, 'Updated Colony');
 
   const fee = db.getFeeByUserId(testUserId);
   assert.strictEqual(Number(fee.monthly_fee), 800, 'Monthly fee should update to 800');
+  assert.strictEqual(fee.joining_date, '2026-08-15', 'Joining date must update');
+  assert.ok(fee.next_billing_date, 'Next billing date must be recalculated');
+
+  const user = db.getUserById(testUserId);
+  assert.strictEqual(user.joining_date, '2026-08-15', 'getUserById must return joining_date');
+});
+
+test('Member Registration with Custom Past Joining Date', () => {
+  const pastMember = db.createUser({
+    name: 'Rohan Verma',
+    mobile: '9777766666',
+    password: 'rohanpassword',
+    joining_date: '2026-07-01',
+    address: 'Noida Sector 62',
+    monthly_fee: 500,
+    initial_payment: 500
+  });
+
+  assert.ok(pastMember && pastMember.id, 'Past member must be created');
+  assert.strictEqual(pastMember.joining_date, '2026-07-01', 'Joining date must match past date');
+
+  const all = db.getAllUsers();
+  const found = all.find(u => u.mobile === '9777766666');
+  assert.ok(found, 'Member must be listed in getAllUsers');
+  assert.strictEqual(found.joining_date, '2026-07-01', 'getAllUsers must return joining_date');
+
+  // Clean up past member
+  db.deleteUser(pastMember.id);
 });
 
 test('KPI System Stats Calculation', () => {
