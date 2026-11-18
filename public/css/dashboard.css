@@ -554,67 +554,89 @@
   transition: width 0.5s ease;
 }
 
-/* User Dashboard Specific Layout */
+/* User Dashboard Specific Layout & Mobile Phone UX */
 .user-layout-grid {
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 24px;
+  grid-template-columns: 320px 1fr;
+  gap: 22px;
+  align-items: start;
 }
 
 @media (max-width: 900px) {
   .user-layout-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 16px;
   }
 }
 
+/* User Profile Card */
 .user-profile-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 30px 22px;
-  text-align: center;
+  padding: 24px 20px;
   box-shadow: var(--shadow-sm);
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.user-profile-header-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
 }
 
 .user-profile-avatar-large {
-  width: 110px;
-  height: 110px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 16px auto;
   border: 3px solid var(--primary);
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
   display: block;
   background-color: var(--gym-dark);
+  flex-shrink: 0;
+}
+
+.user-profile-meta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .user-profile-name {
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 900;
   color: #FFFFFF;
-  margin-bottom: 4px;
+  line-height: 1.2;
 }
 
+/* Details List: clean cards */
 .profile-details-list {
-  margin-top: 22px;
+  margin-top: 18px;
   border-top: 1px solid var(--border);
-  padding-top: 18px;
-  text-align: left;
+  padding-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .profile-detail-item {
+  background-color: var(--gym-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .profile-detail-label {
-  font-size: 0.725rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -622,8 +644,290 @@
 }
 
 .profile-detail-value {
-  font-size: 0.95rem;
+  font-size: 0.925rem;
   font-weight: 700;
   color: #FFFFFF;
   word-break: break-word;
+}
+
+.profile-notice-box {
+  margin-top: 14px;
+  padding: 10px 12px;
+  background-color: var(--gym-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Phone Layout for Profile Card */
+@media (max-width: 640px) {
+  .user-profile-card {
+    padding: 16px;
+  }
+
+  .user-profile-header-box {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .user-profile-avatar-large {
+    width: 64px;
+    height: 64px;
+    border-width: 2.5px;
+  }
+
+  .user-profile-meta-group {
+    align-items: flex-start;
+  }
+
+  .user-profile-name {
+    font-size: 1.15rem;
+  }
+
+  .profile-details-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .profile-detail-item {
+    padding: 8px 10px;
+  }
+
+  .profile-detail-full {
+    grid-column: span 2;
+  }
+}
+
+/* Fee Snapshot Card */
+.user-fees-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .user-fees-column {
+    gap: 14px;
+  }
+}
+
+.user-fee-card {
+  padding: 22px;
+}
+
+@media (max-width: 640px) {
+  .user-fee-card {
+    padding: 16px;
+  }
+}
+
+.user-fee-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.user-card-heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.user-card-subheading {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* 3-Metric Fee Strip (Side-by-side 3 columns on desktop & mobile) */
+.user-fee-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 500px) {
+  .user-fee-metrics {
+    gap: 8px;
+  }
+}
+
+.user-metric-box {
+  background-color: var(--gym-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.user-metric-box:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.user-metric-label {
+  font-size: 0.675rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.user-metric-val {
+  font-size: clamp(1.15rem, 3.2vw, 1.55rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+}
+
+.user-metric-box.metric-success .user-metric-val {
+  color: #34D399;
+}
+
+.user-metric-box.metric-danger .user-metric-val {
+  color: #F87171;
+}
+
+@media (max-width: 480px) {
+  .user-metric-box {
+    padding: 10px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  .user-metric-label {
+    font-size: 0.625rem;
+  }
+
+  .user-metric-val {
+    font-size: 1.15rem;
+  }
+}
+
+.fee-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+/* Payment Receipts Views (Desktop Table vs Mobile Cards) */
+.user-desktop-receipts-view {
+  display: block;
+}
+
+.user-mobile-receipts-view {
+  display: none;
+  padding: 14px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .user-desktop-receipts-view {
+    display: none !important;
+  }
+  .user-mobile-receipts-view {
+    display: flex !important;
+  }
+}
+
+.receipt-mobile-card {
+  background-color: var(--gym-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.receipt-mobile-card:active {
+  transform: scale(0.99);
+  border-color: var(--primary);
+}
+
+.receipt-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.receipt-card-date {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.receipt-card-method {
+  font-size: 0.725rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.receipt-card-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.receipt-card-amount {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #34D399;
+  letter-spacing: -0.01em;
+}
+
+.receipt-card-note {
+  font-size: 0.775rem;
+  color: #94A3B8;
+  border-top: 1px dashed var(--border);
+  padding-top: 6px;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.verified-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: var(--gym-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.receipts-count-badge {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--text-muted);
 }

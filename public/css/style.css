@@ -500,9 +500,9 @@ form.modal-dialog,
 
   .modal-dialog {
     max-width: 100%;
-    max-height: 92dvh;
-    height: 92dvh;
-    border-radius: 22px 22px 0 0;
+    max-height: 90dvh;
+    height: auto;
+    border-radius: 20px 20px 0 0;
     margin-bottom: 0;
     transform: translateY(100%);
   }
@@ -523,9 +523,6 @@ form.modal-dialog,
   .modal-footer {
     padding: 14px 16px;
     padding-bottom: max(16px, env(safe-area-inset-bottom));
-  }
-}
-    z-index: 10;
   }
 
   .modal-footer .btn {

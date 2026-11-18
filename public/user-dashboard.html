@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Gold Gym - Member Portal</title>
-  <link rel="stylesheet" href="/css/style.css?v=gym7">
-  <link rel="stylesheet" href="/css/dashboard.css?v=gym7">
+  <link rel="stylesheet" href="/css/style.css?v=gold8">
+  <link rel="stylesheet" href="/css/dashboard.css?v=gold8">
 </head>
 <body>
 
@@ -50,9 +50,9 @@
           <p class="page-subtitle">Inspect your membership details, fees balance, and verified payment receipts.</p>
         </div>
         <div>
-          <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background-color: var(--gym-card); border: 1px solid var(--border); border-radius: var(--radius-full); font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          <div class="verified-badge-pill">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
             <span>Verified Member Portal</span>
           </div>
@@ -62,27 +62,25 @@
       <!-- User Layout Grid -->
       <div class="user-layout-grid">
 
-        <!-- Column 1: Personal Profile Card (Read-Only) -->
+        <!-- Column 1: Member Profile Card (Read-Only) -->
         <section class="user-profile-card">
-          <img id="profile-photo-large" src="/uploads/default-avatar.svg" alt="Profile Photo" class="user-profile-avatar-large" onerror="this.src='/uploads/default-avatar.svg'">
-          
-          <h2 class="user-profile-name" id="profile-display-name">Loading...</h2>
-          <span class="badge badge-role-user" style="margin-bottom: 12px;">Active Gym Member</span>
+          <div class="user-profile-header-box">
+            <img id="profile-photo-large" src="/uploads/default-avatar.svg" alt="Profile Photo" class="user-profile-avatar-large" onerror="this.src='/uploads/default-avatar.svg'">
+            <div class="user-profile-meta-group">
+              <h2 class="user-profile-name" id="profile-display-name">Loading...</h2>
+              <span class="badge badge-role-user">Active Gym Member</span>
+            </div>
+          </div>
 
           <div class="profile-details-list">
             <div class="profile-detail-item">
-              <span class="profile-detail-label">Mobile Number / Login ID</span>
+              <span class="profile-detail-label">Mobile / Login ID</span>
               <span class="profile-detail-value" id="profile-mobile" style="color: var(--primary);">-</span>
             </div>
 
             <div class="profile-detail-item">
-              <span class="profile-detail-label">Membership Start Date</span>
+              <span class="profile-detail-label">Membership Start</span>
               <span class="profile-detail-value" id="profile-joining-date" style="color: #34D399; font-weight: 700;">-</span>
-            </div>
-
-            <div class="profile-detail-item">
-              <span class="profile-detail-label">Address / City</span>
-              <span class="profile-detail-value" id="profile-address">-</span>
             </div>
 
             <div class="profile-detail-item">
@@ -91,62 +89,57 @@
             </div>
 
             <div class="profile-detail-item">
-              <span class="profile-detail-label">Next 30-Day Renewal Due</span>
+              <span class="profile-detail-label">Next Renewal Due</span>
               <span class="profile-detail-value" id="profile-next-renewal" style="color: #34D399; font-weight: 800;">-</span>
             </div>
 
-            <div class="profile-detail-item">
-              <span class="profile-detail-label">Joining / Admission Date</span>
-              <span class="profile-detail-value" id="profile-registered-date">-</span>
+            <div class="profile-detail-item profile-detail-full">
+              <span class="profile-detail-label">Address / City</span>
+              <span class="profile-detail-value" id="profile-address">-</span>
             </div>
           </div>
 
-          <div style="margin-top: 20px; padding: 12px; background-color: var(--gym-dark); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.775rem; color: var(--text-muted); text-align: left;">
-            ℹ️ <strong>Gym Notice:</strong> Profile details and membership fees are maintained by gym administration. To update contact information, please contact the front desk.
+          <div class="profile-notice-box">
+            ℹ️ <strong>Gym Notice:</strong> Profile details and membership fees are maintained by Gold Gym administration. To update contact information, please visit the front desk.
           </div>
         </section>
 
         <!-- Column 2: Membership Fees & Payment Receipts -->
-        <section style="display: flex; flex-direction: column; gap: 20px;">
+        <section class="user-fees-column">
 
           <!-- Fee Snapshot Metrics -->
-          <div class="table-card" style="padding: 22px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div class="table-card user-fee-card">
+            <div class="user-fee-header">
               <div>
-                <h3 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF;">Membership Fee Balance</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Current dues and admission package allocation</p>
+                <h3 class="user-card-heading">Membership Fee Balance</h3>
+                <p class="user-card-subheading">Current dues and monthly subscription status</p>
               </div>
               <div id="user-fee-status-badge">
                 <span class="badge badge-unpaid">Loading...</span>
               </div>
             </div>
 
-            <div class="stats-grid" style="margin-bottom: 20px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
-              <div class="stat-card" style="padding: 16px;">
-                <div>
-                  <div class="stat-label">Total Fee</div>
-                  <div class="stat-value" style="font-size: 1.45rem;" id="user-total-fees">₹0</div>
-                </div>
+            <!-- 3-Metric Strip (Clean 3-column grid on ALL screens) -->
+            <div class="user-fee-metrics">
+              <div class="user-metric-box">
+                <span class="user-metric-label">TOTAL FEE</span>
+                <span class="user-metric-val" id="user-total-fees">₹0</span>
               </div>
 
-              <div class="stat-card" style="padding: 16px;">
-                <div>
-                  <div class="stat-label">Paid Amount</div>
-                  <div class="stat-value" style="font-size: 1.45rem; color: #34D399;" id="user-paid-fees">₹0</div>
-                </div>
+              <div class="user-metric-box metric-success">
+                <span class="user-metric-label">PAID AMOUNT</span>
+                <span class="user-metric-val" id="user-paid-fees">₹0</span>
               </div>
 
-              <div class="stat-card" style="padding: 16px;">
-                <div>
-                  <div class="stat-label">Remaining Dues</div>
-                  <div class="stat-value" style="font-size: 1.45rem; color: #F87171;" id="user-remaining-fees">₹0</div>
-                </div>
+              <div class="user-metric-box metric-danger">
+                <span class="user-metric-label">REMAINING DUES</span>
+                <span class="user-metric-val" id="user-remaining-fees">₹0</span>
               </div>
             </div>
 
             <!-- Visual Progress Bar -->
             <div class="fee-progress-wrapper">
-              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
+              <div class="fee-progress-meta">
                 <span>Payment Completion</span>
                 <span id="fee-percentage-label">0% Paid</span>
               </div>
@@ -156,37 +149,46 @@
             </div>
           </div>
 
-          <!-- Payment History Table Card -->
+          <!-- Payment History Card -->
           <div class="table-card">
             <div class="table-toolbar">
               <div>
-                <h3 style="font-size: 1.1rem; font-weight: 800; color: #FFFFFF;">Payment Receipts History</h3>
-                <p style="font-size: 0.825rem; color: var(--text-muted);">Official record of all installments credited to your membership</p>
+                <h3 class="user-card-heading">Payment Receipts History</h3>
+                <p class="user-card-subheading">Official record of all installments credited to your membership</p>
               </div>
-              <div style="font-size: 0.825rem; font-weight: 700; color: var(--text-muted);">
+              <div class="receipts-count-badge">
                 Total Receipts: <span id="user-payment-count">0</span>
               </div>
             </div>
 
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Amount Paid</th>
-                    <th>Payment Method</th>
-                    <th>Notes / Reference</th>
-                  </tr>
-                </thead>
-                <tbody id="user-payment-history-tbody">
-                  <tr>
-                    <td colspan="4" style="text-align: center; padding: 30px; color: var(--text-muted);">
-                      Loading payment records...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <!-- Desktop Table (visible on > 768px) -->
+            <div class="user-desktop-receipts-view">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Amount Paid</th>
+                      <th>Payment Method</th>
+                      <th>Notes / Reference</th>
+                    </tr>
+                  </thead>
+                  <tbody id="user-payment-history-tbody">
+                    <tr>
+                      <td colspan="4" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                        Loading payment records...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+
+            <!-- Mobile Cards View (visible on <= 768px) -->
+            <div class="user-mobile-receipts-view" id="user-mobile-receipts-container">
+              <!-- Rendered by user.js -->
+            </div>
+
           </div>
 
         </section>
@@ -198,7 +200,7 @@
 
   <div id="toast-container"></div>
 
-  <script src="/js/api.js?v=gym5"></script>
-  <script src="/js/user.js?v=gym5"></script>
+  <script src="/js/api.js?v=gold8"></script>
+  <script src="/js/user.js?v=gold8"></script>
 </body>
 </html>

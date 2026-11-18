@@ -26,7 +26,7 @@ function handleGetMyProfile(req, res) {
         id: user.id,
         name: user.name,
         mobile: user.mobile,
-        father_name: user.father_name,
+        joining_date: user.joining_date,
         address: user.address,
         photo_url: user.photo_url,
         created_at: user.created_at
